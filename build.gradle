@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
+}
+
+group = 'com.dex'
+version = '0.3.1'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // openapi
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
+
+    // intellij
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+}
+
+springBoot {
+    buildInfo()
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.register('copyJarToServerJar', Copy) {
+    dependsOn('bootJar')
+    mustRunAfter('jar')
+    from('build/libs') {
+        rename "${project.name}-${project.version}.jar", 'server.jar'
+    }
+    into 'build/libs'
+}
