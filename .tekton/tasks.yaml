@@ -82,7 +82,7 @@ spec:
       type: string
     - name: step-image
       description: Image to run during the deploy step
-      default: quay.io/cloudnativetoolkit/cli-tools:latest
+      default: quay.io/cloudnativetoolkit/cli-tools-core:latest
       type: string
   workspaces:
     - name: source
