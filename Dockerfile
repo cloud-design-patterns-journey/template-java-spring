@@ -1,10 +1,10 @@
-FROM registry.access.redhat.com/ubi9/openjdk-17:1.18 as builder
+FROM registry.access.redhat.com/ubi9/openjdk-17:1.22 as builder
 
 COPY --chown=default . .
 
 RUN ./gradlew copyJarToServerJar --no-daemon && ls build/libs
 
-FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.18
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.22
 
 ARG NAME="ibm/template-java-spring"
 ARG SUMMARY="This is an example of a container image."
